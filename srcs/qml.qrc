@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>TextOutput.qml</file>
+        <file>RowInput.qml</file>
+        <file>SettingsGreenPoints.qml</file>
+    </qresource>
+</RCC>
