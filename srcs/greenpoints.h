@@ -15,6 +15,8 @@
 #include <sstream>
 #include <QString>
 #include <QThread>
+#include <QImage>
+#include <QPixmap>
 
 class GreenPoints : public QObject
 {
@@ -23,13 +25,18 @@ class GreenPoints : public QObject
 public:
 	GreenPoints();
 	GreenPoints(const QString& path);
-	void	processing_image();
+	void	processing_image(cv::Mat background);
 	void	thresh_callback(int, void*);
 
 	size_t	get_count_points() const;
 	std::vector<double>	get_contours_area() const;
 	std::vector<double>	get_cont_avgs() const;
 	void	setCoef(double coef);
+	void	setSensivity(double Sensivity);
+	QString					getFileName() const;
+	void					setFileName(const QString &newFileName);
+
+	const QImage	getContour() const;
 signals:
 	void	result_ready();
 public slots:
@@ -37,14 +44,18 @@ public slots:
 private:
 
 	QString path;
+
 	QString text_stream;
 
-	int thresh = 29;
+	QString	fileName;
+
+	double thresh = 13;
 	cv::RNG rng{12345};
 	double coef = 1;
-	bool it = false;
+
 	cv::Mat src;
 	cv::Mat src_gray;
+	cv::Mat drawing;
 
 	size_t count_points = 0;
 	std::vector<double> contours_area;

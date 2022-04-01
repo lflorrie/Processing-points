@@ -18,13 +18,15 @@ INCLUDEPATH += srcs/
 SOURCES += \
         srcs/greenpointsarray.cpp \
 	srcs/greenpointsproject.cpp \
+    srcs/imageitem.cpp \
 	srcs/main.cpp \
 	srcs/greenpoints.cpp
 
 HEADERS += \
         srcs/greenpoints.h \
 	srcs/greenpointsarray.h \
-	srcs/greenpointsproject.h
+	srcs/greenpointsproject.h \
+    srcs/imageitem.h
 
 RESOURCES += srcs/qml.qrc
 

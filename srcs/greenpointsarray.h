@@ -18,13 +18,22 @@ public:
 public slots:
 	void					setValues(const QDir &dir);
 	void					setCoef(double coef);
+	void					setSensivity(double Sensivity);
+	void					setBackgroundPath(const QString &newPathToBackground);
+	void					setUseBackgroundSub(bool newUseBackgroundSubtraction);
 
 signals:
 	void					progressChangedArr(float progress);
 private:
+
+	QString pathToBackground;
+	bool	useBackgroundSubtraction;
+
 	QVector<GreenPoints*> points_file;
 	float	progress;
 	double	coef = 1;
+	double	Sensivity = 13;
+
 };
 
 #endif // GREENPOINTSARRAY_H

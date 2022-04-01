@@ -1,11 +1,11 @@
 #include "greenpointsproject.h"
 #include <QDebug>
 #include <QtMath>
+
 GreenPointsProject::GreenPointsProject(QObject *parent) : QObject(parent)
 {
 	connect(&points_array, SIGNAL(progressChangedArr(float)), this, SLOT(progressChanged(float)));
 
-	QString str;
 	QTextStream stream(&config);
 	if (!config.exists()) {
 		config.open(QIODevice::ReadWrite);
@@ -13,6 +13,11 @@ GreenPointsProject::GreenPointsProject(QObject *parent) : QObject(parent)
 		config_map["path_to_save"] = "";
 		config_map["area_mm"] = "25";
 		config_map["area_pix"] = "256";
+		config_map["showOnlyMaxResult"] = "0";
+		config_map["sensivity"] = "13";
+		config_map["unitsArea"] = "";
+		config_map["path_to_background"] = "";
+		config_map["useBackgroundSubtraction"] = "0";
 
 		for (auto i : config_map) {
 			stream << i.first << " " << i.second << "\n";
@@ -30,6 +35,8 @@ GreenPointsProject::GreenPointsProject(QObject *parent) : QObject(parent)
 		}
 	}
 	dir.setPath(config_map["path_to_open"]);
+	points_array.setBackgroundPath(config_map["path_to_background"]);
+	points_array.setUseBackgroundSub(config_map["useBackgroundSubtraction"] == "1");
 	config.close();
 }
 
@@ -47,6 +54,7 @@ void GreenPointsProject::procGreenPoints()
 {
 	points_array.clear();
 	points_array.setCoef(getAreaMM() / getAreaPixels());
+	points_array.setSensivity(getSensivity());
 	points_array.setValues(dir);
 }
 
@@ -109,21 +117,37 @@ void GreenPointsProject::receiveFromQml()
 	QTextStream text(&s);
 
 	text.setFieldAlignment(QTextStream::AlignLeft);
+	maxGreenPoints = nullptr;
+	if (getShowOnlyMaxResult()) {
+		for (const GreenPoints *now : points_array.getValues()) {
+			if (maxGreenPoints == nullptr || now->get_count_points() > maxGreenPoints->get_count_points()) {
+				maxGreenPoints = now;
+			}
+		}
+	}
 
-	for (const auto& now : points_array.getValues()) {
+	for (const GreenPoints *now : points_array.getValues()) {
+		if (getShowOnlyMaxResult() && maxGreenPoints != nullptr)
+			now = maxGreenPoints;
 		if (now->get_count_points() > 0) {
 			text.setFieldWidth(0);
+			text << "FileName: " << now->getFileName() << "\n";
 			text << "Count of points: " << now->get_count_points() << "\n";
+
 			for (size_t i = 0; i < now->get_count_points(); ++i) {
 				QString area = QString::number(now->get_contours_area()[i]);
 				QString avgs = QString::number(now->get_cont_avgs()[i]);
-				QString S = QString("S = %1").arg(area);
+				QString S = QString("S = %1").arg(area) + " " + getUnitsArea();
 				QString I = QString("I = %1").arg(avgs);
 				text.setFieldWidth(25);
 				text << S << "\t";
 				text << I;
 				text.setFieldWidth(0);
 				text << "\n";
+			}
+			if (getShowOnlyMaxResult()) {
+				emit	sendToQml(s);
+				return;
 			}
 		}
 	}
@@ -148,3 +172,81 @@ void GreenPointsProject::saveFile(const QString& name, const QString& filename)
 	}
 }
 
+
+bool GreenPointsProject::getShowOnlyMaxResult() const
+{
+	return config_map.at("showOnlyMaxResult") == "1";
+}
+
+void GreenPointsProject::setShowOnlyMaxResult(bool newShowOnlyMaxResult)
+{
+	if (getShowOnlyMaxResult() == newShowOnlyMaxResult)
+		return;
+	config_map["showOnlyMaxResult"] = QString::number(newShowOnlyMaxResult);
+	emit showOnlyMaxResultChanged();
+}
+
+double GreenPointsProject::getSensivity() const
+{
+	return config_map.at("sensivity").toDouble();
+}
+
+void GreenPointsProject::setSensivity(double newSensivity)
+{
+	if (qFuzzyCompare(getSensivity(), newSensivity))
+		return;
+	config_map["sensivity"] = QString::number(newSensivity);
+	emit sensivityChanged();
+}
+
+const QString &GreenPointsProject::getUnitsArea() const
+{
+	return config_map.at("unitsArea");
+}
+
+void GreenPointsProject::setunitsArea(const QString &newUnitsArea)
+{
+	if (getUnitsArea() == newUnitsArea)
+		return;
+	config_map["unitsArea"] = newUnitsArea;
+	emit unitsAreaChanged();
+}
+
+const QString GreenPointsProject::getFileNameMaxGP() const
+{
+	return maxGreenPoints->getFileName();
+}
+
+const QImage GreenPointsProject::getContour() const
+{
+	return maxGreenPoints->getContour();
+}
+
+const QString &GreenPointsProject::getPathToBackground() const
+{
+	return config_map.at("path_to_background");;
+}
+
+void GreenPointsProject::setPathToBackground(const QString &newPathToBackground)
+{
+	if (newPathToBackground == getPathToBackground())
+		return;
+	points_array.setBackgroundPath(newPathToBackground);
+	config_map["path_to_background"] = newPathToBackground;
+
+	emit pathToBackgroundChanged();
+}
+
+bool GreenPointsProject::getUseBackgroundSubtraction() const
+{
+	return config_map.at("useBackgroundSubtraction") == "1";
+}
+
+void GreenPointsProject::setUseBackgroundSubtraction(bool newUseBackgroundSubtraction)
+{
+	if (getUseBackgroundSubtraction() == newUseBackgroundSubtraction)
+		return;
+	config_map["useBackgroundSubtraction"] = QString::number(newUseBackgroundSubtraction);
+	points_array.setUseBackgroundSub(newUseBackgroundSubtraction);
+	emit useBackgroundSubtractionChanged();
+}

@@ -4,8 +4,8 @@ import QtQuick.Layouts 1.3
 
 Item {
     id: root
-    width: 480
-    height: 320
+//    width: 480
+//    height: 320
     property alias header: name.text
     property alias text: text_data.text
 

@@ -3,7 +3,7 @@
 #include <QQmlContext>
 #include "greenpointsproject.h"
 #include "greenpoints.h"
-
+#include "imageitem.h"
 
 int main(int argc, char *argv[])
 {
@@ -18,6 +18,9 @@ int main(int argc, char *argv[])
 	QQmlApplicationEngine engine;
 	QQmlContext *context = engine.rootContext();
 	context->setContextProperty("GreenPoints", &gp);
+
+	qmlRegisterType<ImageItem>("myextension", 1, 0, "ImageItem");
+
 	const QUrl url(QStringLiteral("qrc:/main.qml"));
 	QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
 					&app, [url](QObject *obj, const QUrl &objUrl) {
