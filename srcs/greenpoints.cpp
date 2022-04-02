@@ -53,6 +53,31 @@ double GreenPoints::calculateAreaContour(const cv::Mat &img, const std::vector<c
 	return S;
 }
 
+double GreenPoints::calculateMeanIntensivity(const cv::Mat &img, const std::vector<cv::Point> &contour)
+{
+	double I = 0;
+	double countPxs = 0;
+
+	auto [min_x, max_x] = std::minmax_element(contour.begin(), contour.end(),
+			[](const Point &a, const Point &b) { return a.x < b.x; });
+	auto [min_y, max_y] = std::minmax_element(contour.begin(), contour.end(),
+			[](const Point &a, const Point &b) { return a.y < b.y; });
+
+	for (int i = min_x->x; i <=  max_x->x; ++i)
+	{
+		for (int j = min_y->y; j <= max_y->y; ++j)
+		{
+			int pixelColor = img.at<uchar>(j, i);
+			if (pixelColor > thresh)
+			{
+				countPxs++;
+				I += pixelColor;
+			}
+		}
+	}
+	return I / countPxs;
+}
+
 void GreenPoints::processing_image(cv::Mat background)
 {
 	if (path.isEmpty()) {
@@ -95,10 +120,11 @@ void GreenPoints::thresh_callback()
 		contours_area.push_back(calculateAreaContour(tempImg, contours[i]) * coef);
 
 		// meanContour
-		cv::Rect roi = cv::boundingRect(contours[i]);
-		cv::Scalar mean;
-		mean = cv::mean(src(roi), drawing(roi) == i);
-		cont_avgs.push_back((mean[0] + mean[1] + mean[2] + mean[3]));
+		cont_avgs.push_back(calculateMeanIntensivity(src_gray, contours[i]));
+//		cv::Rect roi = cv::boundingRect(contours[i]);
+//		cv::Scalar mean;
+//		mean = cv::mean(src(roi), drawing(roi) == i);
+//		cont_avgs.push_back((mean[0] + mean[1] + mean[2] + mean[3]));
 	}
 	drawing = tempImg;
 	count_points = contours.size();

@@ -19,7 +19,7 @@ GreenPointsProject::GreenPointsProject(QObject *parent) : QObject(parent)
 		config_map["path_to_background"] = "";
 		config_map["useBackgroundSubtraction"] = "0";
 
-		for (auto i : config_map) {
+		for (const auto &i : config_map) {
 			stream << i.first << " " << i.second << "\n";
 		}
 	} else {
@@ -44,7 +44,7 @@ GreenPointsProject::~GreenPointsProject()
 {
 	QTextStream stream(&config);
 	config.open(QIODevice::WriteOnly);
-	for (auto i : config_map) {
+	for (const auto &i : config_map) {
 		stream << i.first << " " << i.second << "\n";
 	}
 	config.close();

@@ -54,7 +54,8 @@ private:
 	/* a = a - b */
 	void	imageSubtraction(cv::Mat &a, const cv::Mat &b);
 
-	double	calculateAreaContour(const cv::Mat &imv, const std::vector<cv::Point> &contour);
+	double	calculateAreaContour(const cv::Mat &img, const std::vector<cv::Point> &contour);
+	double	calculateMeanIntensivity(const cv::Mat &img, const std::vector<cv::Point> &contour);
 
 private:
 
