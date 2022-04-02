@@ -3,6 +3,7 @@ import QtQuick.Window 2.12
 import QtQuick.Dialogs 1.2
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
+import QtQuick.Controls.Styles 1.4
 
 ApplicationWindow {
     id: root
@@ -213,8 +214,9 @@ ApplicationWindow {
                         }
                         Slider {
                             id: sensivity
-                            from: 5
-                            to: 40
+                            from: 0
+                            to: 255
+                            stepSize: 10
                             value: GreenPoints.sensivity
                             snapMode: Slider.SnapOnRelease
                             onPressedChanged: {
@@ -222,6 +224,10 @@ ApplicationWindow {
                                     GreenPoints.sensivity = sensivity.value
                                     GreenPoints.receiveFromQml()
                                 }
+                            }
+                            onPositionChanged: {
+                                sensivityLabel.text = sensivity.value
+                                sensivityLabel.x = sensivity.position + visualPosition * sensivity.width
                             }
                             Layout.fillWidth: true
                         }
