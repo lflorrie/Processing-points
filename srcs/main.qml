@@ -227,9 +227,13 @@ ApplicationWindow {
                             }
                             onPositionChanged: {
                                 sensivityLabel.text = sensivity.value
-                                sensivityLabel.x = sensivity.position + visualPosition * sensivity.width
+//                                sensivityLabel.x = sensivity.position + visualPosition * sensivity.width
                             }
                             Layout.fillWidth: true
+                            Label {
+                                id: sensivityLabel
+                                text: sensivity.value
+                            }
                         }
                         Slider {
                             Layout.fillWidth: true

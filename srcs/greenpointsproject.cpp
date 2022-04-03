@@ -132,6 +132,7 @@ void GreenPointsProject::receiveFromQml()
 		if (now->get_count_points() > 0) {
 			text.setFieldWidth(0);
 			text << "FileName: " << now->getFileName() << "\n";
+			text << "Filling frame: " << now->getFillingFrame() << "\n";
 			text << "Count of points: " << now->get_count_points() << "\n";
 
 			for (size_t i = 0; i < now->get_count_points(); ++i) {
@@ -162,7 +163,7 @@ void GreenPointsProject::progressChanged(float progress)
 
 void GreenPointsProject::saveFile(const QString& name, const QString& filename)
 {
-	QFile file(filename);
+	QFile file(filename.toLocal8Bit().data());
 	config_map["path_to_save"] = filename;
 	if ( file.open(QIODevice::ReadWrite) )
 	{

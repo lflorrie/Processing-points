@@ -4,11 +4,12 @@
 #include "greenpointsproject.h"
 #include "greenpoints.h"
 #include "imageitem.h"
+#include <QTextCodec>
 
 int main(int argc, char *argv[])
 {
 	GreenPointsProject gp;
-
+//	QTextCodec::setCodecForLocale(QTextCodec::codecForName("CP 1251"));
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
 	QGuiApplication app(argc, argv);

@@ -114,18 +114,23 @@ void GreenPoints::thresh_callback()
 	for (size_t i = 0; i < contours.size(); i++)
 	{
 		cv::drawContours(tempImg, contours, i, 255, cv::FILLED);
-		cv::drawContours(drawing, contours, i, Scalar(i), cv::FILLED); // for mean
 
 		// areaContour
 		contours_area.push_back(calculateAreaContour(tempImg, contours[i]) * coef);
 
 		// meanContour
 		cont_avgs.push_back(calculateMeanIntensivity(src_gray, contours[i]));
-//		cv::Rect roi = cv::boundingRect(contours[i]);
-//		cv::Scalar mean;
-//		mean = cv::mean(src(roi), drawing(roi) == i);
-//		cont_avgs.push_back((mean[0] + mean[1] + mean[2] + mean[3]));
 	}
+	filling_frame = 0;
+	for (int i = 0; i < src_gray.rows; ++i)
+	{
+		for (int j = 0; j < src_gray.cols; ++j)
+		{
+			if (src_gray.at<uchar>(i,j) >= thresh)
+				++filling_frame;
+		}
+	}
+	qDebug() << "Filling frame: " << filling_frame;
 	drawing = tempImg;
 	count_points = contours.size();
 }
@@ -168,6 +173,11 @@ void GreenPoints::setFileName(const QString &newFileName)
 const QImage	GreenPoints::getContour() const
 {
 	return QImage(drawing.data, drawing.cols, drawing.rows, QImage::Format_Grayscale8);
+}
+
+double GreenPoints::getFillingFrame() const
+{
+	return filling_frame;
 }
 
 bool GreenPoints::write(const QString &source, const QString &data)

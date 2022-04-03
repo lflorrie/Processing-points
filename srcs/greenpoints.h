@@ -18,6 +18,7 @@
 #include <QThread>
 #include <QImage>
 #include <QPixmap>
+#include <QDebug>
 
 class GreenPoints : public QObject
 {
@@ -34,6 +35,7 @@ public:
 	std::vector<double>	get_contours_area() const;
 	std::vector<double>	get_cont_avgs() const;
 	const QImage		getContour() const;
+	double				getFillingFrame() const;
 
 	void	setCoef(double coef);
 	void	setSensivity(double Sensivity);
@@ -69,7 +71,8 @@ private:
 	cv::Mat src_gray;
 	cv::Mat drawing;
 
-	size_t count_points = 0;
+	double	filling_frame = 0;
+	size_t	count_points = 0;
 	std::vector<double> contours_area;
 	std::vector<double> cont_avgs;
 
