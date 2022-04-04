@@ -84,7 +84,7 @@ void GreenPoints::processing_image(cv::Mat background)
 		cout << "Path is empty!\n";
 		return;
 	}
-	src = imread(samples::findFile(path.toStdString()));
+	src = imread(samples::findFile(path.toLocal8Bit().data()));
 	if (src.empty())
 	{
 	   cout << "Could not open or find the image!\n";
@@ -114,10 +114,8 @@ void GreenPoints::thresh_callback()
 	for (size_t i = 0; i < contours.size(); i++)
 	{
 		cv::drawContours(tempImg, contours, i, 255, cv::FILLED);
-
 		// areaContour
 		contours_area.push_back(calculateAreaContour(tempImg, contours[i]) * coef);
-
 		// meanContour
 		cont_avgs.push_back(calculateMeanIntensivity(src_gray, contours[i]));
 	}
@@ -130,7 +128,6 @@ void GreenPoints::thresh_callback()
 				++filling_frame;
 		}
 	}
-	qDebug() << "Filling frame: " << filling_frame;
 	drawing = tempImg;
 	count_points = contours.size();
 }

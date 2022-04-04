@@ -67,6 +67,8 @@ void GreenPointsProject::setPath(const QString& path)
 {
 	if (path == dir.path())
 		return;
+
+//	dir.setPath(QString::fromUtf8(path.toLocal8Bit()).toLocal8Bit().data());
 	dir.setPath(path);
 	emit pathChanged(dir.path());
 }
@@ -163,7 +165,7 @@ void GreenPointsProject::progressChanged(float progress)
 
 void GreenPointsProject::saveFile(const QString& name, const QString& filename)
 {
-	QFile file(filename.toLocal8Bit().data());
+	QFile file(filename);
 	config_map["path_to_save"] = filename;
 	if ( file.open(QIODevice::ReadWrite) )
 	{

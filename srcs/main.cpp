@@ -9,10 +9,10 @@
 int main(int argc, char *argv[])
 {
 	GreenPointsProject gp;
-//	QTextCodec::setCodecForLocale(QTextCodec::codecForName("CP 1251"));
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
 	QGuiApplication app(argc, argv);
+	QStringList args = app.arguments();
 	app.setOrganizationName("GreenPoints");
 	app.setOrganizationDomain("Nodomen");
 

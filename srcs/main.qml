@@ -223,6 +223,7 @@ ApplicationWindow {
                                 if (!pressed) {
                                     GreenPoints.sensivity = sensivity.value
                                     GreenPoints.receiveFromQml()
+
                                 }
                             }
                             onPositionChanged: {
@@ -287,7 +288,7 @@ ApplicationWindow {
     FileDialog {
         id: fileDialog
         title: "Please choose a file"
-        folder: GreenPoints.path === "" ? shortcuts.home : "file:///" + GreenPoints.path;
+        folder: GreenPoints.path.toString() === "" ? shortcuts.home : "file:///" + GreenPoints.path;
         selectFolder: true
 
         onAccepted: {
