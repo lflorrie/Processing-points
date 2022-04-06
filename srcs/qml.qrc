@@ -3,7 +3,14 @@
         <file>main.qml</file>
         <file>TextOutput.qml</file>
         <file>RowInput.qml</file>
-        <file>SettingsGreenPoints.qml</file>
         <file>ShowPoints.qml</file>
+        <file>MyButton.qml</file>
+        <file>../resources/arrow_2.png</file>
+        <file>../resources/arrow_1.png</file>
+        <file>../resources/arrow_3.svg</file>
+        <file>../resources/arrow_left_3.svg</file>
+        <file>MySlider.qml</file>
+        <file>MyTextField.qml</file>
+        <file>../resources/black_cat.jpg</file>
     </qresource>
 </RCC>

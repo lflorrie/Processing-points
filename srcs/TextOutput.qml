@@ -8,10 +8,12 @@ Item {
 //    height: 320
     property alias header: name.text
     property alias text: text_data.text
-
+    property int borderWidth: 2
+    property int pixelSize: 14
     Rectangle {
         id: rect
         border.color: "black"
+        border.width: borderWidth
         color: "white"
         width: parent.width
         height: parent.height
@@ -31,14 +33,15 @@ Item {
                     id: name
                     color: "black"
                     enabled: false
-                    font.pixelSize: 25
+                    font.pixelSize: pixelSize + 10
+                    font.bold: true
                     height: font.pixelSize + 30
                 }
                 TextArea {
                     id: text_data
                     color: "black"
                     enabled: false
-                    font.pixelSize: 14
+                    font.pixelSize: pixelSize
                 }
             }
         }

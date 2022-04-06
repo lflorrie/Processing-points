@@ -12,6 +12,11 @@ ApplicationWindow {
     height: 800
     visible: true
 
+    property int borderWidthVal: 2
+    property int layoutMarginsVal: 20
+    property int pixelSize: 20
+
+
     Connections {
         target: GreenPoints
 
@@ -34,10 +39,11 @@ ApplicationWindow {
         GridLayout {
             columns: 3
 
-            Button {
+            MyButton {
                 text: "Back"
                 Layout.fillWidth: true
-                Layout.margins: 10
+                Layout.margins: layoutMarginsVal
+                borderWidth: borderWidthVal
                 onClicked: {
                     mainSwipeVeiw.decrementCurrentIndex()
                 }
@@ -45,7 +51,9 @@ ApplicationWindow {
             }
             TextOutput {
                 id: txtout
+                pixelSize: root.pixelSize
                 header: textOfExperiment.text
+                borderWidth: borderWidthVal
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 Layout.column: 0
@@ -53,7 +61,7 @@ ApplicationWindow {
                 Layout.columnSpan: 2
                 Layout.rowSpan: 2
 //                anchors.fill: parent
-                Layout.margins: 20
+                Layout.margins: layoutMarginsVal
                 ProgressBar {
                     id: progress_bar
                     visible: false
@@ -76,7 +84,7 @@ ApplicationWindow {
             Rectangle {
                 Layout.column: 2
                 Layout.row: 1
-                Layout.margins: 10
+                Layout.margins: layoutMarginsVal
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 SwipeView {
@@ -89,33 +97,54 @@ ApplicationWindow {
                     columns: 3
 
                     //
-                    Button {
+                    MyButton {
+                        opacity: 1
                         Layout.column: 2
-                        text: "->"
-                        Layout.fillHeight: true
-//                        Layout.margins: 10
+                        text: ""
+                        borderWidth: borderWidthVal
+//                        Layout.fillHeight: true
+                        implicitWidth: 50
+                        implicitHeight: 50
+//                        Layout.margins: layoutMarginsVal
                         Layout.rowSpan: 5
                         onClicked: {
                             swipeView.incrementCurrentIndex()
+                        }
+                        Image {
+                            id: imgArrowRightButton
+                            source: "../resources/arrow_3.svg"
+                            anchors.centerIn: parent
+                            width: parent.width * 0.5
+                            height: parent.width * 0.5
                         }
                     }
                     //
 
                     Label {
                         Layout.column: 0
-                        text: "Name of experiment"
+                        text: "Name of experiment:"
+                        font.pixelSize: pixelSize
                     }
-                    TextField {
+                    MyTextField {
                         id: textOfExperiment
+                        font.pixelSize: pixelSize
+                        selectByMouse: true
+                        borderWidth: borderWidthVal
                         placeholderText: "Enter name of experiment"
                         Layout.columnSpan: 1
                         Layout.fillWidth: true
+                        Layout.margins: layoutMarginsVal
                     }
                     Label {
-                        text: "Units S"
+                        text: "Units of Area:"
+                        font.pixelSize: pixelSize
                     }
-                    TextField {
+                    MyTextField {
                         id: units
+                        font.pixelSize: pixelSize
+                        borderWidth: borderWidthVal
+                        Layout.margins: layoutMarginsVal
+                        selectByMouse: true
                         placeholderText: "Enter units of area"
                         text: GreenPoints.unitsArea
                         onTextChanged: {
@@ -123,14 +152,19 @@ ApplicationWindow {
                         }
 
                         Layout.columnSpan: 1
-                         Layout.fillWidth: true
+                        Layout.fillWidth: true
                     }
                     Label {
                         text: "Pixels to mm (S):"
+                        font.pixelSize: pixelSize
                     }
                     RowLayout {
-                        TextField {
+                        MyTextField {
                             id: area_pix
+                            font.pixelSize: pixelSize
+                            borderWidth: borderWidthVal
+                            Layout.margins: layoutMarginsVal
+                            selectByMouse: true
                             placeholderText: "px"
                             text: GreenPoints.area_pixels
                             Layout.fillWidth: true
@@ -138,8 +172,12 @@ ApplicationWindow {
                                 GreenPoints.area_pixels = area_pix.text
                             }
                         }
-                        TextField {
+                        MyTextField {
                             id: area_mm
+                            font.pixelSize: pixelSize
+                            borderWidth: borderWidthVal
+                            Layout.margins: layoutMarginsVal
+                            selectByMouse: true
                             placeholderText: "mm"
                             text: GreenPoints.area_mm
                             Layout.fillWidth: true
@@ -151,18 +189,24 @@ ApplicationWindow {
 
                     Label {
                         text: "Path to background:"
+                        font.pixelSize: pixelSize
                     }
-                    TextField {
+                    MyTextField {
                         id: backgroundPath
+                        borderWidth: borderWidthVal
+                        font.pixelSize: pixelSize
                         placeholderText: "Enter path to background:"
+                        selectByMouse: true
                         Layout.columnSpan: 1
                         Layout.fillWidth: true
+                        Layout.margins: layoutMarginsVal
                         text: GreenPoints.pathToBackground
                         enabled: backgroundCheckBox.checked
                         onTextChanged: {
                             GreenPoints.pathToBackground = backgroundPath.text
                         }
-                        Button {
+                        MyButton {
+                            opacity: 1
                             anchors.right: parent.right
                             anchors.top: parent.top
                             anchors.bottom: parent.bottom
@@ -170,11 +214,13 @@ ApplicationWindow {
                                 fileDialog3.open()
                             }
                             text: "^"
+                            borderWidth: borderWidthVal
                             width: parent.width / 8
                         }
                     }
                     CheckBox {
                         id: showOnlyMaxResult
+                        font.pixelSize: pixelSize
                         checked: GreenPoints.showOnlyMaxResult
                         onToggled: {
                             showButton.enabled = showOnlyMaxResult.checked
@@ -187,14 +233,17 @@ ApplicationWindow {
                     }
                     CheckBox {
                         id: backgroundCheckBox
+                        font.pixelSize: pixelSize
+
                         checked: GreenPoints.useBackgroundSubtraction
                         onToggled: {
                             backgroundPath.enabled = backgroundCheckBox.checked
                             GreenPoints.useBackgroundSubtraction = backgroundCheckBox.checked
                             GreenPoints.receiveFromQml()
                         }
-                        text: "Subtraction backgound"
-                        Layout.fillWidth: true
+                        text: "Subtraction background"
+                        Layout.alignment: Qt.AlignRight
+//                        Layout.fillWidth: true
                         Layout.columnSpan: 1
 
                     }
@@ -202,17 +251,26 @@ ApplicationWindow {
                     GridLayout {
                     id: lay2
                     columns: 2
-                        Button {
+                        MyButton {
                             Layout.column: 0
-                            text: "<-"
-                            Layout.fillHeight: true
-                            Layout.margins: 10
+                            text: ""
+//                            Layout.fillHeight: true
+                            borderWidth: borderWidthVal
+                            Layout.margins: layoutMarginsVal
                             Layout.rowSpan: 3
+                            implicitWidth: 50
+                            implicitHeight: 50
                             onClicked: {
                                 swipeView.decrementCurrentIndex()
                             }
+                            Image {
+                                source: "../resources/arrow_left_3.svg"
+                                anchors.centerIn: parent
+                                width: parent.width * 0.5
+                                height: parent.width * 0.5
+                            }
                         }
-                        Slider {
+                        MySlider {
                             id: sensivity
                             from: 0
                             to: 255
@@ -226,21 +284,13 @@ ApplicationWindow {
 
                                 }
                             }
-                            onPositionChanged: {
-                                sensivityLabel.text = sensivity.value
-//                                sensivityLabel.x = sensivity.position + visualPosition * sensivity.width
-                            }
                             Layout.fillWidth: true
-                            Label {
-                                id: sensivityLabel
-                                text: sensivity.value
-                            }
                         }
-                        Slider {
+                        MySlider {
                             Layout.fillWidth: true
 
                         }
-                        Slider {
+                        MySlider {
                             Layout.fillWidth: true
 
                         }
@@ -256,22 +306,24 @@ ApplicationWindow {
                 Layout.columnSpan: 2
                 Layout.alignment: (Qt.AlignCenter | Qt.AlignBottom)
                 Layout.row: 0
-                Layout.margins: 20
+                Layout.margins: layoutMarginsVal
             }
             RowLayout {
-                Button {
+                MyButton {
+                    borderWidth: borderWidthVal
                     Layout.column: 2
                     Layout.row: 2
-                    Layout.margins: 20
+                    Layout.margins: layoutMarginsVal
                     Layout.fillWidth: true
                     text: "Save"
                     onClicked: {
                         fileDialog2.open()
                     }
                 }
-                Button {
+                MyButton {
                     id: showButton
-                    Layout.margins: 20
+                    borderWidth: borderWidthVal
+                    Layout.margins: layoutMarginsVal
                     Layout.fillWidth: true
                     text: "Show"
                     enabled: showOnlyMaxResult.checked

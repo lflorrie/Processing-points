@@ -5,6 +5,7 @@
 #include "greenpoints.h"
 #include "imageitem.h"
 #include <QTextCodec>
+#include <QIcon>
 
 int main(int argc, char *argv[])
 {
@@ -15,6 +16,8 @@ int main(int argc, char *argv[])
 	QStringList args = app.arguments();
 	app.setOrganizationName("GreenPoints");
 	app.setOrganizationDomain("Nodomen");
+
+	app.setWindowIcon(QIcon(":/resources/black_cat.jpg"));
 
 	QQmlApplicationEngine engine;
 	QQmlContext *context = engine.rootContext();
