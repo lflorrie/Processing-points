@@ -21,7 +21,7 @@ void GreenPoints::imageSubtraction(cv::Mat &a, const cv::Mat &b)
 			int diff2 = abs(a.at<Vec3b>(i, j)[1] - b.at<Vec3b>(i, j)[1]);
 			int diff3 = abs(a.at<Vec3b>(i, j)[2] - b.at<Vec3b>(i, j)[2]);
 
-			if ((diff1 < 20 || diff2 < 20 || diff3 < 20))
+			if ((diff1 < thresh || diff2 < thresh || diff3 < thresh ))
 			{
 				a.at<Vec3b>(i, j)[0] = 0;
 				a.at<Vec3b>(i, j)[1] = 0;

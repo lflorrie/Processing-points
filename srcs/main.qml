@@ -38,7 +38,6 @@ ApplicationWindow {
         }
         GridLayout {
             columns: 3
-
             MyButton {
                 text: "Back"
                 Layout.fillWidth: true
@@ -250,7 +249,7 @@ ApplicationWindow {
                 }
                     GridLayout {
                     id: lay2
-                    columns: 2
+                    columns: 3
                         MyButton {
                             Layout.column: 0
                             text: ""
@@ -270,30 +269,36 @@ ApplicationWindow {
                                 height: parent.width * 0.5
                             }
                         }
+                        Label {
+                            text: "Sensivity:"
+
+                            font.pixelSize: pixelSize
+                        }
                         MySlider {
                             id: sensivity
                             from: 0
                             to: 255
-                            stepSize: 10
+                            stepSize: 1
                             value: GreenPoints.sensivity
                             snapMode: Slider.SnapOnRelease
                             onPressedChanged: {
                                 if (!pressed) {
                                     GreenPoints.sensivity = sensivity.value
+                                    sensivity.enabled = false
                                     GreenPoints.receiveFromQml()
-
+                                    sensivity.enabled = true
                                 }
                             }
                             Layout.fillWidth: true
                         }
-                        MySlider {
-                            Layout.fillWidth: true
+//                        Slider {
+//                            Layout.fillWidth: true
 
-                        }
-                        MySlider {
-                            Layout.fillWidth: true
+//                        }
+//                        Slider {
+//                            Layout.fillWidth: true
 
-                        }
+//                        }
                     }
                 }
             }

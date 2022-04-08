@@ -65,6 +65,7 @@ private:
 	QString	fileName;
 
 	double thresh = 13;
+
 	double coef = 1;
 
 	cv::Mat src;

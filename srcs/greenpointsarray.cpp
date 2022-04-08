@@ -19,7 +19,7 @@ void GreenPointsArray::setValues(const QDir &dir)
 	cv::Mat background;
 
 	if (useBackgroundSubtraction && !pathToBackground.isEmpty())
-		background = cv::imread(cv::samples::findFile(pathToBackground.toStdString()));
+		background = cv::imread(cv::samples::findFile(pathToBackground.toLocal8Bit().data()));
 	if (dir.exists())
 	{
 //		QStringList files =  dir.entryList(QStringList({"*.bmp"}));

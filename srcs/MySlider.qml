@@ -9,30 +9,19 @@ Slider {
     property string colorTheme: control.enabled ? color : 'black'
     property bool showValue: true
 
-    background: Rectangle {
-
-        x: control.leftPadding ;
-        y: control.topPadding + (control.availableHeight / 2 - height / 2)
-
-        width: control.availableWidth
-        height: 7
-
-        color: control.pressed ? Qt.lighter(colorTheme,1.1) : Qt.lighter(colorTheme,1.2)
-    }
-
     handle: Rectangle {
         id: sliderHandle
-        x: control.leftPadding  + control.visualPosition * (control.availableWidth- width)
+        x: control.leftPadding  + control.visualPosition * (control.availableWidth - width)
         y: control.topPadding + control.availableHeight / 2 - height / 2
 
-        height: width * 4
-        width: control.height
+        height: width
+        width: control.height * 2
 
         radius: width
-
+        color: control.pressed ? Qt.darker("white", 1.2) : "white"
         border{
 
-            width: control.pressed ? width/2 : 1
+            width: 1
             color: control.pressed ? Qt.lighter(colorTheme,1.2)
                                                   : Qt.lighter(colorTheme,1.5)
             Behavior on width{
