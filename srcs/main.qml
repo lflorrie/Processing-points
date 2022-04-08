@@ -8,13 +8,13 @@ import QtQuick.Controls.Styles 1.4
 ApplicationWindow {
     id: root
     title: "GreenPoints"
-    width: 1000
+    width: 1200
     height: 800
     visible: true
 
     property int borderWidthVal: 2
     property int layoutMarginsVal: 20
-    property int pixelSize: 20
+    property int pixelSize: 18
 
 
     Connections {
@@ -31,7 +31,7 @@ ApplicationWindow {
         clip: true
         interactive: false
         Button {
-            text: "Choice the folder"
+            text: qsTr("Choice the folder")
             onClicked: {
                 fileDialog.open()
             }
@@ -39,7 +39,7 @@ ApplicationWindow {
         GridLayout {
             columns: 3
             MyButton {
-                text: "Back"
+                text: qsTr("Back")
                 Layout.fillWidth: true
                 Layout.margins: layoutMarginsVal
                 borderWidth: borderWidthVal
@@ -121,7 +121,7 @@ ApplicationWindow {
 
                     Label {
                         Layout.column: 0
-                        text: "Name of experiment:"
+                        text: qsTr("Name of experiment:")
                         font.pixelSize: pixelSize
                     }
                     MyTextField {
@@ -129,13 +129,13 @@ ApplicationWindow {
                         font.pixelSize: pixelSize
                         selectByMouse: true
                         borderWidth: borderWidthVal
-                        placeholderText: "Enter name of experiment"
+                        placeholderText: qsTr("Enter name of experiment")
                         Layout.columnSpan: 1
                         Layout.fillWidth: true
                         Layout.margins: layoutMarginsVal
                     }
                     Label {
-                        text: "Units of Area:"
+                        text: qsTr("Units of Area:")
                         font.pixelSize: pixelSize
                     }
                     MyTextField {
@@ -144,7 +144,7 @@ ApplicationWindow {
                         borderWidth: borderWidthVal
                         Layout.margins: layoutMarginsVal
                         selectByMouse: true
-                        placeholderText: "Enter units of area"
+                        placeholderText: qsTr("Enter units of area")
                         text: GreenPoints.unitsArea
                         onTextChanged: {
                             GreenPoints.unitsArea = units.text
@@ -154,7 +154,7 @@ ApplicationWindow {
                         Layout.fillWidth: true
                     }
                     Label {
-                        text: "Pixels to mm (S):"
+                        text: qsTr("Pixels to mm (S):")
                         font.pixelSize: pixelSize
                     }
                     RowLayout {
@@ -164,7 +164,7 @@ ApplicationWindow {
                             borderWidth: borderWidthVal
                             Layout.margins: layoutMarginsVal
                             selectByMouse: true
-                            placeholderText: "px"
+                            placeholderText: qsTr("px")
                             text: GreenPoints.area_pixels
                             Layout.fillWidth: true
                             onTextChanged: {
@@ -177,7 +177,7 @@ ApplicationWindow {
                             borderWidth: borderWidthVal
                             Layout.margins: layoutMarginsVal
                             selectByMouse: true
-                            placeholderText: "mm"
+                            placeholderText: qsTr("mm")
                             text: GreenPoints.area_mm
                             Layout.fillWidth: true
                             onTextChanged: {
@@ -187,14 +187,14 @@ ApplicationWindow {
                     }
 
                     Label {
-                        text: "Path to background:"
+                        text: qsTr("Path to background:")
                         font.pixelSize: pixelSize
                     }
                     MyTextField {
                         id: backgroundPath
                         borderWidth: borderWidthVal
                         font.pixelSize: pixelSize
-                        placeholderText: "Enter path to background:"
+                        placeholderText: qsTr("Enter path to background:")
                         selectByMouse: true
                         Layout.columnSpan: 1
                         Layout.fillWidth: true
@@ -226,7 +226,7 @@ ApplicationWindow {
                             GreenPoints.showOnlyMaxResult = showOnlyMaxResult.checked
                             GreenPoints.receiveFromQml()
                         }
-                        text: "Show only max result"
+                        text: qsTr("Show only max result")
                         Layout.fillWidth: true
                         Layout.columnSpan: 1
                     }
@@ -240,7 +240,7 @@ ApplicationWindow {
                             GreenPoints.useBackgroundSubtraction = backgroundCheckBox.checked
                             GreenPoints.receiveFromQml()
                         }
-                        text: "Subtraction background"
+                        text: qsTr("Subtraction background")
                         Layout.alignment: Qt.AlignRight
 //                        Layout.fillWidth: true
                         Layout.columnSpan: 1
@@ -270,7 +270,7 @@ ApplicationWindow {
                             }
                         }
                         Label {
-                            text: "Sensivity:"
+                            text: qsTr("Sensivity:")
 
                             font.pixelSize: pixelSize
                         }
@@ -320,7 +320,7 @@ ApplicationWindow {
                     Layout.row: 2
                     Layout.margins: layoutMarginsVal
                     Layout.fillWidth: true
-                    text: "Save"
+                    text: qsTr("Save")
                     onClicked: {
                         fileDialog2.open()
                     }
@@ -330,7 +330,7 @@ ApplicationWindow {
                     borderWidth: borderWidthVal
                     Layout.margins: layoutMarginsVal
                     Layout.fillWidth: true
-                    text: "Show"
+                    text: qsTr("Show")
                     enabled: showOnlyMaxResult.checked
                     onClicked: {
                         var component = Qt.createComponent("ShowPoints.qml")
@@ -344,7 +344,7 @@ ApplicationWindow {
 
     FileDialog {
         id: fileDialog
-        title: "Please choose a file"
+        title: qsTr("Please choose a file")
         folder: GreenPoints.path.toString() === "" ? shortcuts.home : "file:///" + GreenPoints.path;
         selectFolder: true
 
@@ -363,7 +363,7 @@ ApplicationWindow {
     }
     FileDialog {
         id: fileDialog2
-        title: "Please choose a file"
+        title: qsTr("Please choose a file")
         folder: {
             folder = GreenPoints.path_save === "" ? shortcuts.home : "file:///" + GreenPoints.path_save;
         }
@@ -383,7 +383,7 @@ ApplicationWindow {
     }
     FileDialog {
         id: fileDialog3
-        title: "Please choose a file"
+        title: qsTr("Please choose a file")
         folder: {
             folder = GreenPoints.path_save === "" ? shortcuts.home : "file:///" + GreenPoints.pathToBackground;
         }

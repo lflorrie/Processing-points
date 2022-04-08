@@ -13,14 +13,14 @@ Window {
             liveImageItem.visible = true
             image.visible = false
             liveImageItem.setImage(GreenPoints.contour)
-            root.title = "Contours"
+            root.title = qsTr("Contours")
         }
         onPressed: {
             liveImageItem.visible = false
             image.visible = true
 //            image.source = "file:///" + GreenPoints.fileNameMaxGP
             image.source = GreenPoints.fileNameMaxGP
-            root.title = "Original"
+            root.title = qsTr("Original")
         }
 
     }

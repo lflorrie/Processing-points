@@ -7,6 +7,9 @@
 #include <QTextCodec>
 #include <QIcon>
 
+#include <QLocale>
+#include <QTranslator>
+
 int main(int argc, char *argv[])
 {
 	GreenPointsProject gp;
@@ -18,6 +21,17 @@ int main(int argc, char *argv[])
 	app.setOrganizationDomain("Nodomen");
 
 	app.setWindowIcon(QIcon(":/resources/black_cat.jpg"));
+
+	QTranslator translator;
+	const QStringList uiLanguages = QLocale::system().uiLanguages();
+	for (const QString &locale : uiLanguages) {
+		const QString baseName = "ru.qm";
+//		const QString baseName = "qmlLanguageTest_" + QLocale(locale).name();
+		if (translator.load(":/translations/" + baseName)) {
+			app.installTranslator(&translator);
+			break;
+		}
+	}
 
 	QQmlApplicationEngine engine;
 	QQmlContext *context = engine.rootContext();

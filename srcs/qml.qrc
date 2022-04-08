@@ -13,4 +13,8 @@
         <file>MyTextField.qml</file>
         <file>../resources/black_cat.jpg</file>
     </qresource>
+    <qresource prefix= "translations">
+        <file>ru.qm</file>
+    </qresource>
+
 </RCC>
